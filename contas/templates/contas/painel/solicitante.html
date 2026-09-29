@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Painel{% endblock %}
+{% block conteudo %}
+<h1 class="h3 mb-1">Olá, {{ user.get_short_name }}</h1>
+<p class="text-body-secondary">Acompanhe seus chamados de manutenção.</p>
+<div class="row g-3">
+  {% include "partials/card_numero.html" with titulo="Chamados em andamento" valor=minhas_abertas icone="hourglass-split" cor="warning" %}
+  {% include "partials/card_numero.html" with titulo="Chamados concluídos" valor=minhas_concluidas icone="check-circle" cor="success" %}
+</div>
+<p class="text-body-secondary small mt-4">A abertura de chamados será liberada na próxima etapa do projeto.</p>
+{% endblock %}

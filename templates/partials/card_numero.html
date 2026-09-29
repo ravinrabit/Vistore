@@ -1,0 +1,14 @@
+{# Card de indicador usado nos painéis. Parâmetros: titulo, valor, icone, cor #}
+<div class="col-6 col-lg-3">
+  <div class="card h-100 shadow-sm border-0">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="text-body-secondary small">{{ titulo }}</div>
+          <div class="fs-2 fw-bold">{{ valor }}</div>
+        </div>
+        <i class="bi bi-{{ icone }} fs-2 text-{{ cor|default:'primary' }}"></i>
+      </div>
+    </div>
+  </div>
+</div>

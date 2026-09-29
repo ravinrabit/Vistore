@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block titulo %}Locais{% endblock %}
+{% block conteudo %}
+{% url 'estrutura:local_novo' as url_novo %}
+{% include "partials/cabecalho_lista.html" with titulo="Locais" url_novo=url_novo %}
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>{% if user.eh_admin %}<th>Unidade</th>{% endif %}<th>Bloco</th><th>Andar</th><th>Sala</th><th>Ambiente</th><th class="text-end">Ações</th></tr>
+      </thead>
+      <tbody>
+        {% for local in object_list %}
+          <tr>
+            {% if user.eh_admin %}<td>{{ local.unidade }}</td>{% endif %}
+            <td>{{ local.bloco }}</td>
+            <td>{{ local.andar }}</td>
+            <td class="fw-semibold">{{ local.sala }}</td>
+            <td>{{ local.get_tipo_ambiente_display }}</td>
+            <td class="text-end text-nowrap">
+              <a href="{% url 'estrutura:local_editar' local.pk %}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'estrutura:local_excluir' local.pk %}" class="btn btn-sm btn-outline-danger" title="Excluir"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-center text-body-secondary py-4">Nenhum local encontrado.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "partials/paginacao.html" %}
+{% endblock %}

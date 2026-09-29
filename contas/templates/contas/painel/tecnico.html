@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Painel{% endblock %}
+{% block conteudo %}
+<h1 class="h3 mb-1">Olá, {{ user.get_short_name }}</h1>
+<p class="text-body-secondary">Seus serviços e treinamentos.</p>
+<div class="row g-3 mb-4">
+  {% include "partials/card_numero.html" with titulo="Serviços atribuídos" valor=ordens_atribuidas icone="wrench-adjustable" %}
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-white fw-semibold">Meus treinamentos</div>
+  <ul class="list-group list-group-flush">
+    {% for item in meus_treinamentos %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ item.treinamento }}
+        {% if item.data_validade < hoje %}
+          <span class="badge text-bg-danger">Vencido em {{ item.data_validade|date:"d/m/Y" }}</span>
+        {% elif item.data_validade <= limite_alerta %}
+          <span class="badge text-bg-warning">Vence em {{ item.data_validade|date:"d/m/Y" }}</span>
+        {% else %}
+          <span class="badge text-bg-success">Válido até {{ item.data_validade|date:"d/m/Y" }}</span>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li class="list-group-item text-body-secondary">Nenhum treinamento registrado.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

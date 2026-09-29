@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{# Formulário genérico de cadastro/edição, reaproveitado pelos CRUDs #}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block conteudo %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <h1 class="h3 mb-3">{{ titulo }}</h1>
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+          {% for campo in form %}
+            <div class="mb-3 {% if campo.widget_type == 'checkbox' %}form-check{% endif %}">
+              {% if campo.widget_type == 'checkbox' %}
+                {{ campo }} <label class="form-check-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+              {% else %}
+                <label class="form-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                {{ campo }}
+              {% endif %}
+              {% if campo.help_text %}<div class="form-text">{{ campo.help_text }}</div>{% endif %}
+              {% for erro in campo.errors %}<div class="text-danger small">{{ erro }}</div>{% endfor %}
+            </div>
+          {% endfor %}
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-vistore"><i class="bi bi-check-lg"></i> Salvar</button>
+            <a href="{{ view.success_url }}" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

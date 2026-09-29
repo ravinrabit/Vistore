@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}Painel{% endblock %}
+{% block conteudo %}
+<h1 class="h3 mb-1">Olá, {{ user.get_short_name }}</h1>
+<p class="text-body-secondary">Unidade {{ user.unidade }}.</p>
+<div class="row g-3">
+  {% include "partials/card_numero.html" with titulo="Chamados abertos" valor=ordens_abertas icone="inbox" cor="warning" %}
+  {% include "partials/card_numero.html" with titulo="Treinamentos vencendo (30 dias)" valor=treinamentos_vencendo icone="exclamation-triangle" cor="danger" %}
+  {% include "partials/card_numero.html" with titulo="Locais" valor=total_locais icone="door-open" %}
+  {% include "partials/card_numero.html" with titulo="Equipamentos" valor=total_equipamentos icone="tools" %}
+</div>
+{% include "contas/painel/_atalhos_cadastro.html" %}
+{% endblock %}

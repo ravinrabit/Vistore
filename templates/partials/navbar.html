@@ -1,0 +1,53 @@
+{# A navbar mostra só os itens que o perfil do usuário pode acessar #}
+<nav class="navbar navbar-expand-lg navbar-dark bg-vistore">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'contas:painel' %}">
+      <i class="bi bi-shield-check"></i> Vistore
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+            aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'painel' %}active{% endif %}"
+             href="{% url 'contas:painel' %}"><i class="bi bi-speedometer2"></i> Painel</a>
+        </li>
+        {% if user.eh_admin or user.eh_gestor %}
+          {% with rota=request.resolver_match.url_name %}
+          <li class="nav-item">
+            <a class="nav-link {% if 'unidade' in rota %}active{% endif %}" href="{% url 'estrutura:unidade_lista' %}">
+              <i class="bi bi-buildings"></i> {% if user.eh_admin %}Unidades{% else %}Minha unidade{% endif %}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'local' in rota %}active{% endif %}" href="{% url 'estrutura:local_lista' %}"><i class="bi bi-door-open"></i> Locais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'equipamento' in rota %}active{% endif %}" href="{% url 'estrutura:equipamento_lista' %}"><i class="bi bi-tools"></i> Equipamentos</a>
+          </li>
+          {% endwith %}
+        {% endif %}
+        {% if user.eh_admin %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-gear"></i> Administração</a>
+          </li>
+        {% endif %}
+      </ul>
+
+      <div class="d-flex align-items-center gap-3 text-white">
+        <span class="small">
+          <i class="bi bi-person-circle"></i> {{ user.get_short_name }}
+          <span class="badge text-bg-light">{{ user.get_perfil_display }}</span>
+          {% if user.unidade %}<span class="d-none d-md-inline opacity-75">· {{ user.unidade }}</span>{% endif %}
+        </span>
+        {# Desde o Django 5 o logout precisa ser POST (proteção CSRF) #}
+        <form method="post" action="{% url 'contas:logout' %}" class="m-0">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-outline-light" type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>

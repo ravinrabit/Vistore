@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Equipamentos{% endblock %}
+{% block conteudo %}
+{% url 'estrutura:equipamento_novo' as url_novo %}
+{% include "partials/cabecalho_lista.html" with titulo="Equipamentos" url_novo=url_novo %}
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light"><tr><th>Nome</th><th>Patrimônio</th><th>Local</th><th class="text-end">Ações</th></tr></thead>
+      <tbody>
+        {% for equipamento in object_list %}
+          <tr>
+            <td class="fw-semibold">{{ equipamento.nome }}</td>
+            <td><code>{{ equipamento.patrimonio }}</code></td>
+            <td class="small">{{ equipamento.local }}</td>
+            <td class="text-end text-nowrap">
+              <a href="{% url 'estrutura:equipamento_editar' equipamento.pk %}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'estrutura:equipamento_excluir' equipamento.pk %}" class="btn btn-sm btn-outline-danger" title="Excluir"><i class="bi bi-trash"></i></a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="text-center text-body-secondary py-4">Nenhum equipamento encontrado.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "partials/paginacao.html" %}
+{% endblock %}

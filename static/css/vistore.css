@@ -1,0 +1,21 @@
+/* Cores do Vistore: azul institucional + laranja de segurança */
+:root {
+  --vistore-azul: #004a8d;
+  --vistore-laranja: #f7941d;
+}
+
+body { background-color: #f4f6f9; }
+
+.bg-vistore { background-color: var(--vistore-azul) !important; }
+.text-vistore { color: var(--vistore-azul) !important; }
+
+.btn-vistore {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--vistore-azul);
+  --bs-btn-border-color: var(--vistore-azul);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #003a6f;
+  --bs-btn-hover-border-color: #003a6f;
+}
+
+.navbar .nav-link.active { border-bottom: 2px solid var(--vistore-laranja); }
